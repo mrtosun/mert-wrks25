@@ -25,7 +25,7 @@ const HomePage = ({ data }) => {
 
       {/* Links */}
       <div className="links">
-        <a href="/cv.pdf" download>Download my CV →</a>
+        {/* <a href="/cv.pdf" download>Download my CV</a> "Bunu daha sonra ekleyeceğim" */} 
         <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
         <a href="https://www.behance.net/merttosun#" target="_blank" rel="noopener noreferrer">Behance →</a>
         <a href="https://bsky.app/profile/tosunmert.bsky.social" target="_blank" rel="noopener noreferrer">Bluesky →</a>
