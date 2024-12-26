@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import "../styles/global.css"  // import the global stylesheet
 
 const HomePage = ({ data }) => {
   // The query will pass data into this component as props
@@ -8,12 +9,12 @@ const HomePage = ({ data }) => {
   const { html } = pageData
 
   return (
-    <main style={{ margin: `0 auto`, maxWidth: 600, padding: `1rem` }}>
-      {/* Display the title from frontmatter */}
-      <h1>{title}</h1>
-      
-      {/* Display the HTML content from the Markdown file */}
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+    <main className="container">
+      <h1>Welcome to My Site</h1>
+      <p>
+        This is a simplified, contemporary layout using the “container” approach
+        for margins. Inter font is applied globally, and the site is responsive.
+      </p>
     </main>
   )
 }
