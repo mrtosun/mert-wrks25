@@ -1,14 +1,6 @@
 ---
-title: "Welcome to My Site"
-date: "2024-01-01"
+title: "Hello, I'm Mert"
 ---
 
-# Hello, I’m [Your Name]!
+I am an academic and designer with a background in Industrial Design and Human-Computer Interaction. Recently, I completed a PhD on game design-based learning and serious games, supported by a Fulbright scholarship. Currently I teach Industrial Design and Design Communication and experiment with generative AI to support divergent thinking.
 
-This is my personal website. I'll expand it in the future with:
-
-- Projects (possibly embedded from Behance)
-- Micro-blog or Blog references (from LinkedIn or BlueSky)
-- More personal or professional details
-
-For now, thanks for visiting this single-page preview!
