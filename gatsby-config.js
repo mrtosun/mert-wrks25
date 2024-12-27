@@ -9,7 +9,17 @@ module.exports = {
     siteUrl: `https://mert.works`
   },
   plugins: [
-    // "gatsby-plugin-google-gtag", // Commented out for now
+    {
+      resolve: "gatsby-plugin-google-gtag",
+      options: {
+        trackingIds: [
+          process.env.GOOGLE_ANALYTICS_TRACKING_ID, // Use environment variable for Google Analytics tracking ID
+        ],
+        pluginConfig: {
+          head: true,
+        },
+      },
+    },
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {

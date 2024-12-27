@@ -17,6 +17,9 @@ const HomePage = ({ data }) => {
 
   return (
     <main className="container">
+      {/* Blue Circle */}
+      <div className="blue-circle"></div>
+
       {/* Title */}
       <h1>{title}</h1>
 
