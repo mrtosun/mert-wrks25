@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { graphql } from "gatsby"
-import "../styles/global.css"  // import the global stylesheet
+import "../styles/global.css"  // import the global stylesheet;
+import SEO from "../components/seo"
 
 const HomePage = ({ data }) => {
   const pageData = data.allMarkdownRemark.edges[0]?.node
@@ -17,6 +18,10 @@ const HomePage = ({ data }) => {
 
   return (
     <main className="container">
+        <SEO
+        title="Home | Mert Tosun's Work"
+        description="I'm working at the intersection of design and research"
+      />
       {/* Blue Circle */}
       <div className="blue-circle"></div>
 
