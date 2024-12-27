@@ -1,19 +1,23 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`, // Load environment variables
+});
+
 module.exports = {
   siteMetadata: {
     title: `mert-wrks25`,
     description: `Here's what I'm working on right now.`,
     author: `Mert Tosun`,
-    siteUrl: `https://mert.works`
+    siteUrl: `https://mert.works`,
   },
   plugins: [
     {
       resolve: "gatsby-plugin-google-gtag",
       options: {
         trackingIds: [
-          process.env.GOOGLE_ANALYTICS_TRACKING_ID, // Use environment variable for Google Analytics tracking ID
+          process.env.GOOGLE_ANALYTICS_TRACKING_ID, // Use environment variable
         ],
         pluginConfig: {
           head: true,
@@ -23,29 +27,29 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: "gatsby-plugin-manifest",
       options: {
-        "icon": "src/images/icon.png"
-      }
+        icon: "src/images/icon.png", // Ensure this file exists
+      },
     },
     "gatsby-transformer-remark",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-source-filesystem",
       options: {
-        "name": "images",
-        "path": "./src/images/"
+        name: "images",
+        path: "./src/images/",
       },
-      __key: "images"
+      __key: "images",
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: "gatsby-source-filesystem",
       options: {
-        "name": "pages",
-        "path": "./src/pages/"
+        name: "pages",
+        path: "./src/pages/",
       },
-      __key: "pages"
-    }
-  ]
+      __key: "pages",
+    },
+  ],
 };
