@@ -2,5 +2,5 @@
 title: "Hello, I'm Mert"
 ---
 
-I am an academic and designer with a background in Industrial Design and Human-Computer Interaction. Recently, I completed a PhD on game design-based learning and serious games, supported by a Fulbright scholarship. Currently I teach Industrial Design and Design Communication and experiment with generative AI to support divergent thinking.
+I am a design instructor and researcher with a PhD in game design-based learning and transformational play. My research was supported by a Fulbright scholarship, allowing me to be a visiting researcher at Carnegie Mellon University in Pittsburgh. Currently, I teach industrial design studio, two design communication courses, and an introduction to game design course at TOBB ETÜ in Ankara.
 

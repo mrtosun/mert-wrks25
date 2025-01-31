@@ -36,7 +36,7 @@ const HomePage = ({ data }) => {
         {/* <a href="/cv.pdf" download>Download my CV</a> "Bunu daha sonra ekleyeceğim" */} 
         <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
         <a href="https://www.behance.net/merttosun#" target="_blank" rel="noopener noreferrer">Behance →</a>
-        <a href="https://bsky.app/profile/tosunmert.bsky.social" target="_blank" rel="noopener noreferrer">Bluesky →</a>
+        <a href="https://www.instagram.com/mert_works/" target="_blank" rel="noopener noreferrer">Instagram →</a>
       </div>
 
       {/* Footnote */}

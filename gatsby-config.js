@@ -2,7 +2,7 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`, // Load environment variables
+  path: `.env`, // Use the generic .env file
 });
 
 module.exports = {
