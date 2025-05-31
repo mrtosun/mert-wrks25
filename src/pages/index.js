@@ -33,10 +33,11 @@ const HomePage = ({ data }) => {
 
       {/* Links */}
       <div className="links">
-        {/* <a href="/cv.pdf" download>Download my CV</a> "Bunu daha sonra ekleyeceğim" */} 
-        <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
-        <a href="https://www.behance.net/merttosun#" target="_blank" rel="noopener noreferrer">Behance →</a>
-        <a href="https://www.instagram.com/mert_works/" target="_blank" rel="noopener noreferrer">Instagram →</a>
+        <a href="/2025-02-28 CV - Mert Tosun.pdf" target="_blank" rel="noopener noreferrer"> Curriculum Vitae →  </a>
+        <a href="https://www.notion.so/mert-tosun/18c8b29ff8a88043b693d2fde004b941?v=1988b29ff8a880a5bf76000c70050c5f" target="_blank" rel="noopener noreferrer">  Studio projects → </a>
+        <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer"> Connect on LinkedIn →</a>
+        <a href="https://www.behance.net/merttosun#" target="_blank" rel="noopener noreferrer">Projects on Behance →</a>
+        <a href="https://www.instagram.com/mert_works/" target="_blank" rel="noopener noreferrer">Works on Instagram →</a>
       </div>
 
       {/* Footnote */}
