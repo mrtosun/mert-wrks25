@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import "../styles/global.css"  // import the global stylesheet;
 import SEO from "../components/seo"
 
@@ -33,6 +33,7 @@ const HomePage = ({ data }) => {
 
       {/* Links */}
       <div className="links">
+        <Link to="/projects">Projects →</Link>
         <a href="/2025-02-28 CV - Mert Tosun.pdf" target="_blank" rel="noopener noreferrer"> Curriculum Vitae →  </a>
         <a href="https://www.notion.so/mert-tosun/18c8b29ff8a88043b693d2fde004b941?v=1988b29ff8a880a5bf76000c70050c5f" target="_blank" rel="noopener noreferrer">  Studio projects → </a>
         <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer"> Connect on LinkedIn →</a>
@@ -50,10 +51,9 @@ const HomePage = ({ data }) => {
 
 export default HomePage
 
-// GraphQL query to get the Markdown content
 export const pageQuery = graphql`
   query {
-    allMarkdownRemark {
+    allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/src/pages/" } }) {
       edges {
         node {
           frontmatter {

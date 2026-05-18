@@ -13,17 +13,40 @@ npm run clean     # clear .cache/ and public/ (use when builds behave unexpected
 
 ## Architecture
 
-This is a minimal Gatsby 5 static site — a single-page personal portfolio for Mert Tosun.
+This is a minimal Gatsby 5 static site — a personal portfolio for Mert Tosun at mert.works.
 
-**Content pipeline:** Page content lives in `src/pages/home.md` as a Markdown file with YAML frontmatter (`title`). At build time, `gatsby-transformer-remark` converts it to HTML. `src/pages/index.js` queries it via GraphQL (`allMarkdownRemark`) and renders the title and HTML directly (`dangerouslySetInnerHTML`). To update the bio or page text, edit `home.md`.
+**Pages:**
+- `src/pages/index.js` — homepage (bio, links)
+- `src/pages/projects.js` — projects listing with tag filtering
+- `src/pages/404.js`
 
-**Routing:** There are only two pages — `src/pages/index.js` (home) and `src/pages/404.js`. External links (CV, Notion, LinkedIn, Behance, Instagram) are hardcoded in `index.js`.
+**Content pipeline:** Markdown files are transformed by `gatsby-transformer-remark` and queried via GraphQL at build time.
+- Homepage bio: `src/pages/home.md` — queried in `index.js` with `fileAbsolutePath` filter for `src/pages/`
+- Projects: one `.md` file per project in `src/content/projects/` — queried in `projects.js` with `fileAbsolutePath` filter for `src/content/projects/`
 
-**Styling:** `src/styles/global.css` — single stylesheet with CSS custom properties (`--font-color`, `--hover-color`), Inter font via Google Fonts, and a max-width 800px centered container.
+**Project frontmatter structure:**
+```yaml
+title: "Project Title"
+summary: "Short description."
+image: "../../images/projects/image.jpg"   # relative path to src/images/projects/
+date: "2025-01-15"                          # ISO date — used for DESC sort, limit 7
+tags: ["Research", "Industrial Design"]    # drives tag filter bar on projects page
+link: "https://..."                         # optional — renders "more about this project →"
+```
 
-**SEO:** `src/components/seo.js` uses `react-helmet` and pulls defaults from `gatsby-config.js` `siteMetadata`.
+**Projects page behavior:**
+- Shows the 7 most recent projects sorted by `date DESC`
+- Tag filter bar at top — client-side filtering via React `useState`
+- Card layout: image left (300×300, cropped), content right (title, summary, tags, optional link)
+- Responsive: stacks vertically at ≤600px
 
-**Static assets:** Files placed in `./static/` are copied verbatim to `public/` at build time (e.g. the CV PDF).
+**Images:** Project images go in `src/images/projects/`. They are processed by `gatsby-plugin-image` / `gatsby-plugin-sharp` and referenced via frontmatter relative paths.
+
+**Styling:** `src/styles/global.css` — single stylesheet with CSS custom properties (`--font-color: #b2b2b2`, `--hover-color: #000`), Inter font, max-width 800px container.
+
+**SEO:** `src/components/seo.js` uses `react-helmet`, falls back to `gatsby-config.js` siteMetadata.
+
+**Static assets:** Files in `./static/` are copied verbatim to `public/` at build time (e.g. the CV PDF).
 
 ## Environment
 

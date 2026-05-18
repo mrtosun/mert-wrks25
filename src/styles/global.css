@@ -73,6 +73,119 @@
     color: var(--hover-color);
   }
   
+  /* Tag filter bar */
+  .tag-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-bottom: 2em;
+  }
+
+  .tag-chip {
+    border: 1px solid #d0d0d0;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    color: var(--font-color);
+    background: none;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+
+  .tag-chip:hover {
+    border-color: #000;
+    color: #000;
+  }
+
+  .tag-chip.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  /* Projects list */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+  }
+
+  /* Project card — horizontal layout */
+  .project-card {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5em;
+    align-items: flex-start;
+  }
+
+  .project-card-image {
+    flex-shrink: 0;
+    width: 300px;
+    max-width: 300px;
+  }
+
+  .project-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+
+  .project-card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .project-summary {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: #000;
+    margin: 0;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin-top: 0.2em;
+  }
+
+  .project-tag {
+    font-size: 11px;
+    color: var(--font-color);
+    font-weight: 400;
+  }
+
+  .project-tag:not(:last-child)::after {
+    content: ",";
+  }
+
+  .project-link {
+    font-size: 13px;
+    color: var(--font-color);
+    text-decoration: none;
+    margin-top: 0.4em;
+    transition: color 0.2s;
+    font-feature-settings: "ss01" on;
+  }
+
+  .project-link:hover {
+    color: var(--hover-color);
+  }
+
+  @media (max-width: 600px) {
+    .project-card {
+      flex-direction: column;
+    }
+    .project-card-image {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
   /* Footnote */
   footer {
     text-align: left;
