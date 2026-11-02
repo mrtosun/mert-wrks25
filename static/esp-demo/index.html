@@ -72,7 +72,11 @@
 
   // send colour (throttled while dragging, final value on release)
   let last = 0;
-  const send = rgb => sb.from("demo_state").update(rgb).eq("id", 1);
+  const send = async rgb => {
+    const { data, error } = await sb.from("demo_state").update(rgb).eq("id", 1).select();
+    if (error) statusEl.textContent = "send failed: " + error.message;
+    else if (!data || !data.length) statusEl.textContent = "send blocked: 0 rows updated";
+  };
   picker.addEventListener("input", e => {
     swatch.style.background = e.target.value;
     const now = Date.now();
