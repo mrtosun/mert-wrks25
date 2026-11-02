@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ESP32 Demo</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; text-align: center; margin: 0; padding: 24px; }
+  main { max-width: 480px; margin: 0 auto; }
+  #count { font-size: 96px; margin: 8px 0; }
+  #swatch { width: 100%; height: 36px; border-radius: 10px; margin: 12px 0; border: 1px solid #8884; }
+  input[type=color] { width: 160px; height: 160px; border: none; background: none; }
+  .muted { opacity: .6; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ESP32 Live Demo</h1>
+  <p class="muted">connection: <span id="status">connecting…</span></p>
+
+  <section>
+    <div>Button presses on the board</div>
+    <div id="count">0</div>
+  </section>
+
+  <section>
+    <div>Pick a colour for the real LED</div>
+    <input type="color" id="picker" value="#000000">
+    <div id="swatch"></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ---- FILL THESE IN (anon/publishable key is meant to be public) ----
+  const SUPABASE_URL = "https://dvwifuksrgxwluymlcig.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_bhXhq0n3VBFNcwBK9sRr0Q_nyhA7eWi";
+  // --------------------------------------------------------------------
+
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const picker = document.getElementById("picker");
+  const swatch = document.getElementById("swatch");
+  const countEl = document.getElementById("count");
+  const statusEl = document.getElementById("status");
+
+  const toHex = ({ r, g, b }) =>
+    "#" + [r, g, b].map(v => v.toString(16).padStart(2, "0")).join("");
+  const fromHex = h => ({
+    r: parseInt(h.slice(1, 3), 16),
+    g: parseInt(h.slice(3, 5), 16),
+    b: parseInt(h.slice(5, 7), 16),
+  });
+
+  function render(row) {
+    countEl.textContent = row.press_count;
+    const hex = toHex(row);
+    swatch.style.background = hex;
+    if (document.activeElement !== picker) picker.value = hex;
+  }
+
+  // initial load
+  sb.from("demo_state").select("*").eq("id", 1).single()
+    .then(({ data }) => data && render(data));
+
+  // live updates from everyone (and from the ESP32 counter)
+  sb.channel("demo_state_changes")
+    .on("postgres_changes",
+        { event: "UPDATE", schema: "public", table: "demo_state" },
+        p => render(p.new))
+    .subscribe(s => statusEl.textContent = s === "SUBSCRIBED" ? "live" : s.toLowerCase());
+
+  // send colour (throttled while dragging, final value on release)
+  let last = 0;
+  const send = rgb => sb.from("demo_state").update(rgb).eq("id", 1);
+  picker.addEventListener("input", e => {
+    swatch.style.background = e.target.value;
+    const now = Date.now();
+    if (now - last < 150) return;
+    last = now;
+    send(fromHex(e.target.value));
+  });
+  picker.addEventListener("change", e => send(fromHex(e.target.value)));
+</script>
+</body>
+</html>
