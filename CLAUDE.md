@@ -15,9 +15,13 @@ npm run clean     # clear .cache/ and public/ (use when builds behave unexpected
 
 This is a minimal Gatsby 5 static site — a single-page personal portfolio for Mert Tosun.
 
-**Content pipeline:** Page content lives in `src/pages/home.md` as a Markdown file with YAML frontmatter (`title`). At build time, `gatsby-transformer-remark` converts it to HTML. `src/pages/index.js` queries it via GraphQL (`allMarkdownRemark`) and renders the title and HTML directly (`dangerouslySetInnerHTML`). To update the bio or page text, edit `home.md`.
+**Content pipeline (Notion CMS):** All content comes from Notion at build time. `gatsby-node.js` calls `src/notion/fetch.js`, which queries the data sources listed in `notion.config.js` (Site Pages, Links, Projects, Studio Projects, Publications, Teaching) through the official API (`@notionhq/client`, data-sources API). Only rows with `Published` ticked are pulled. Page bodies are converted with `notion-to-md` + `marked`, and Notion-hosted images/files/covers are downloaded to `public/notion-media/` because Notion file URLs expire. Everything becomes `NotionEntry` GraphQL nodes (explicit schema in `gatsby-node.js`). The CMS hub in Notion is the page "mert.works CMS".
 
-**Routing:** There are only two pages — `src/pages/index.js` (home) and `src/pages/404.js`. External links (CV, Notion, LinkedIn, Behance, Instagram) are hardcoded in `index.js`.
+**Routing:** `src/pages/index.js` = home (Site Pages row with slug `home` + Links). Section pages (`/projects/`, `/studio/`, `/teaching/`, `/publications/`) are created from `src/templates/section.js` only when their Site Pages row is published. Rows with `Detail page` ticked get `/<section>/<slug>/` from `src/templates/entry.js`. `src/components/layout.js` holds the nav for inner pages.
+
+**Publishing:** `.github/workflows/daily-rebuild.yml` hits the Netlify build hook (secret `NETLIFY_BUILD_HOOK`) daily at 06:00 Istanbul; it can also be run manually from GitHub Actions.
+
+**Offline testing:** set `NOTION_FIXTURE=/path/to/entries.json` (an array of normalised entries) to build without the Notion API.
 
 **Styling:** `src/styles/global.css` — single stylesheet with CSS custom properties (`--font-color`, `--hover-color`), Inter font via Google Fonts, and a max-width 800px centered container.
 
@@ -27,7 +31,8 @@ This is a minimal Gatsby 5 static site — a single-page personal portfolio for 
 
 ## Environment
 
-Requires a `.env` file (not committed) with:
+Requires a `.env` file (not committed), see `.env.example`:
 ```
 GOOGLE_ANALYTICS_TRACKING_ID=G-XXXXXXXXXX
+NOTION_TOKEN=ntn_...   # Notion internal integration secret; also set in Netlify env vars
 ```

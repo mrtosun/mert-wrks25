@@ -1,0 +1,20 @@
+# Rebuilds mert.works every day so changes made in Notion go live.
+# Needs a repository secret NETLIFY_BUILD_HOOK (Netlify > Site configuration > Build & deploy > Build hooks).
+# You can also run it by hand: GitHub > Actions > "Daily rebuild" > Run workflow.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # 03:00 UTC = 06:00 Istanbul
+  workflow_dispatch:
+
+jobs:
+  trigger-netlify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Netlify build hook
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then echo "NETLIFY_BUILD_HOOK secret is not set"; exit 1; fi
+          curl --fail -sS -X POST -d '{}' "$HOOK"

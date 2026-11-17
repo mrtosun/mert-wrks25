@@ -1,48 +1,32 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { graphql } from "gatsby"
-import "../styles/global.css"  // import the global stylesheet;
+import "../styles/global.css"
 import SEO from "../components/seo"
+import { sections } from "../../notion.config"
 
 const HomePage = ({ data }) => {
-  const pageData = data.allMarkdownRemark.edges[0]?.node
-  const { title } = pageData.frontmatter
-  const { html } = pageData
-
-  // State to hold the current year
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
-
-  // Ensure the year updates if the component mounts
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear())
-  }, [])
+  const home = data.home
+  const pages = data.pages.nodes
+  const sectionLinks = sections.map(s => pages.find(p => p.slug === s)).filter(Boolean)
 
   return (
     <main className="container">
-        <SEO
-        title="Home | Mert Tosun's Work"
-        description="I'm working at the intersection of design and research"
-      />
-      {/* Blue Circle */}
+      <SEO title="Home | Mert Tosun's Work" description={home.description} pathname="/" />
       <div className="blue-circle"></div>
+      <h1>{home.title}</h1>
+      <div className="content" dangerouslySetInnerHTML={{ __html: home.html }} />
 
-      {/* Title */}
-      <h1>{title}</h1>
-
-      {/* Content */}
-      <div className="content" dangerouslySetInnerHTML={{ __html: html }} />
-
-      {/* Links */}
       <div className="links">
-        <a href="/2025-02-28 CV - Mert Tosun.pdf" target="_blank" rel="noopener noreferrer"> Curriculum Vitae →  </a>
-        <a href="https://www.notion.so/mert-tosun/18c8b29ff8a88043b693d2fde004b941?v=1988b29ff8a880a5bf76000c70050c5f" target="_blank" rel="noopener noreferrer">  Studio projects → </a>
-        <a href="https://www.linkedin.com/in/mert-tosun/" target="_blank" rel="noopener noreferrer"> Connect on LinkedIn →</a>
-        <a href="https://www.behance.net/merttosun#" target="_blank" rel="noopener noreferrer">Projects on Behance →</a>
-        <a href="https://www.instagram.com/mert_works/" target="_blank" rel="noopener noreferrer">Works on Instagram →</a>
+        {sectionLinks.map(p => (
+          <a key={p.slug} href={p.path}>{p.title} →</a>
+        ))}
+        {data.links.nodes.map(l => (
+          <a key={l.notionId} href={l.url} target="_blank" rel="noopener noreferrer">{l.title} →</a>
+        ))}
       </div>
 
-      {/* Footnote */}
       <footer>
-        <p>© Mert Tosun {currentYear}</p>
+        <p>© Mert Tosun {new Date().getFullYear()}</p>
       </footer>
     </main>
   )
@@ -50,18 +34,21 @@ const HomePage = ({ data }) => {
 
 export default HomePage
 
-// GraphQL query to get the Markdown content
 export const pageQuery = graphql`
   query {
-    allMarkdownRemark {
-      edges {
-        node {
-          frontmatter {
-            title
-          }
-          html
-        }
-      }
+    home: notionEntry(collection: { eq: "pages" }, slug: { eq: "home" }) {
+      title
+      html
+      description
+    }
+    pages: allNotionEntry(filter: { collection: { eq: "pages" } }) {
+      nodes { slug title path }
+    }
+    links: allNotionEntry(
+      filter: { collection: { eq: "links" } }
+      sort: [{ order: ASC }, { title: ASC }]
+    ) {
+      nodes { notionId title url }
     }
   }
 `
