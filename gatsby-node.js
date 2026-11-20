@@ -55,7 +55,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const nodes = data.allNotionEntry.nodes
   if (!nodes.some(n => n.collection === "pages" && n.slug === "home")) {
-    reporter.panicOnBuild('[notion] No published Site Pages row with Slug "home". The home page needs it.')
+    const counts = nodes.reduce((acc, n) => ({ ...acc, [n.collection]: (acc[n.collection] || 0) + 1 }), {})
+    reporter.panic(
+      '[notion] No published Site Pages row with Slug "home", so the home page has no content.\n' +
+        `Entries received from Notion: ${JSON.stringify(counts)}\n` +
+        "Check that the Notion connection has access to the \"mert.works CMS\" page and that the home row is ticked Published."
+    )
   }
 
   const liveSections = new Set(
